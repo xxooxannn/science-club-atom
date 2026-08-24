@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import eventsData from '../data/events.json';
+
+// Events live in src/data/events.json — edit that file, no code needed.
+
+const upcoming = eventsData.filter((e) => e.upcoming);
+const past = [...eventsData.filter((e) => !e.upcoming)].reverse();
+
+const formatDay = (iso: string) => {
+  const d = new Date(iso + 'T00:00:00');
+  return {
+    day: d.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase(),
+    num: d.getDate(),
+    monthYear: d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+  };
+};
+---
+
+<BaseLayout
+  title="Events"
+  description="Lab nights, workshops and exhibitions — what's coming up at ATOMS, and everything we've done."
+>
+  <section class="mx-auto max-w-6xl px-5 pt-10 md:px-8 md:pt-16">
+    <p class="font-mono text-[10px] uppercase tracking-[0.24em] text-crimson">Calendar</p>
+    <h1 class="mt-5 font-display text-4xl font-semibold tracking-tight md:text-6xl">Events.</h1>
+    <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
+      Friday is lab night. Same time, same chaos, new experiments — plus special sessions and the
+      annual Pi Day exhibition.
+    </p>
+  </section>
+
+  <!-- ── UPCOMING ─────────────────────────────────────────── -->
+  <section class="mx-auto mt-16 max-w-6xl px-5 md:mt-20 md:px-8">
+    <h2 class="reveal font-display text-2xl font-semibold tracking-tight md:text-3xl">Coming up</h2>
+    <ul class="mt-8 space-y-4">
+      {
+        upcoming.map((event) => {
+          const d = formatDay(event.date);
+          return (
+            <li class="reveal flex flex-col gap-5 rounded-3xl bg-surface p-6 ring-1 ring-line sm:flex-row sm:items-center md:p-8">
+              <div class="flex h-20 w-20 shrink-0 flex-col items-center justify-center rounded-2xl border border-crimson/30">
+                <span class="font-display text-2xl font-semibold text-crimson">{d.num}</span>
+                <span class="font-mono text-[9px] uppercase tracking-[0.18em] text-ink-soft">
+                  {d.monthYear.split(' ')[0]}
+                </span>
+              </div>
+              <div class="flex-1">
+                <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-soft">
+                  {event.day} · {event.time} · {event.location}
+                </p>
+                <h3 class="mt-1.5 text-xl font-medium md:text-2xl">{event.title}</h3>
+                <p class="mt-2 max-w-2xl leading-relaxed text-ink-soft">{event.description}</p>
+              </div>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </section>
+
+  <!-- ── PAST EVENTS ──────────────────────────────────────── -->
+  <section class="mx-auto mt-24 max-w-6xl px-5 md:mt-32 md:px-8">
+    <h2 class="reveal font-display text-2xl font-semibold tracking-tight md:text-3xl">
+      The record books
+    </h2>
+    <p class="reveal mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-soft">
+      Past sessions · newest first
+    </p>
+    <ul class="reveal mt-6 divide-y divide-line border-t border-line">
+      {
+        past.map((event) => (
+          <li class="group grid grid-cols-[auto_1fr_auto] items-baseline gap-x-6 py-5 max-sm:gap-x-4">
+            <span class="w-20 font-mono text-[11px] uppercase tracking-[0.15em] text-ink-soft max-sm:w-14">
+              {new Date(event.date + 'T00:00:00').toLocaleDateString('en-US', {
+                month: 'short',
+                year: 'numeric',
+              })}
+            </span>
+            <div>
+              <p class="font-medium transition-colors group-hover:text-crimson max-md:text-[15px]">
+                {event.title}
+              </p>
+              <p class="mt-1 hidden font-mono text-[10px] uppercase tracking-[0.15em] text-ink-soft sm:block">
+                {event.location}
+              </p>
+            </div>
+            <span class="text-sm text-ink-soft" aria-hidden="true">✓</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- ── PROPOSE AN EVENT ─────────────────────────────────── -->
+  <section class="mx-auto mt-24 max-w-6xl px-5 md:mt-28 md:px-8">
+    <div class="reveal flex flex-wrap items-center justify-between gap-6 rounded-3xl bg-paper-deep p-8 md:p-10">
+      <div>
+        <h2 class="font-display text-2xl font-semibold tracking-tight md:text-3xl">
+          Got an experiment we should run?
+        </h2>
+        <p class="mt-2 max-w-md leading-relaxed text-ink-soft">
+          Pitch it any Friday, or send it through the form. Best idea each month gets built.
+        </p>
+      </div>
+      <a
+        href="/join"
+        class="inline-flex items-center rounded-full border border-ink/25 px-6 py-3 transition-colors duration-300 ease-fluid hover:border-crimson hover:text-crimson active:scale-[0.98]"
+      >
+        Send a pitch
+      </a>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,462 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Type ─────────────────────────────────────────────── */
+  --font-display: "Playfair Display Variable", "Playfair Display", Georgia, serif;
+  --font-sans: "Outfit Variable", "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ── Palette: warm paper / ink / crimson ──────────────── */
+  --color-paper: #f7f6f2;        /* page background            */
+  --color-paper-deep: #efede6;   /* tinted sections            */
+  --color-surface: #fffefb;      /* cards                      */
+  --color-ink: #191613;          /* primary text               */
+  --color-ink-soft: #57534e;     /* secondary text             */
+  --color-line: #1916131f;       /* hairlines (black @12%)     */
+  --color-crimson: #b01e28;      /* the accent                 */
+  --color-crimson-deep: #8c1520; /* hover state                */
+  --color-crimson-wash: #f5e6e3; /* pale tint fills            */
+
+  /* ── Motion ───────────────────────────────────────────── */
+  --ease-fluid: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* ── Base ─────────────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background-color: var(--color-crimson);
+    color: var(--color-paper);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-crimson);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+/* ── Paper grain (fixed layer — never on scrolling elements) ─ */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Scroll reveal (JS adds .is-visible via IntersectionObserver) ─ */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.7s var(--ease-fluid),
+      transform 0.7s var(--ease-fluid);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ── Orbiting atom mark (each orbit keeps its own base angle) ── */
+@media (prefers-reduced-motion: no-preference) {
+  .atoms-orbit {
+    transform-box: view-box;
+    transform-origin: 50% 50%;
+    animation: atoms-orbit var(--dur, 44s) linear infinite;
+    animation-direction: var(--dir, normal);
+  }
+}
+@keyframes atoms-orbit {
+  from { transform: rotate(var(--base, 0deg)); }
+  to   { transform: rotate(calc(var(--base, 0deg) + 360deg)); }
+}
+
+/* ── anime.js initial states (only when JS will run the show) ──
+   Without .js on <html>, everything stays visible — no-JS safe. */
+.js .hero-line { transform: translateY(115%); }
+.js [data-hero] { opacity: 0; translate: 0 12px; }
+.js #atom-figure svg { opacity: 0; }
+.js .q-word { opacity: 0; translate: 0 10px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .hero-line { transform: none; }
+  .js [data-hero] { opacity: 1; translate: none; }
+  .js #atom-figure svg { opacity: 1; }
+  .js .q-word { opacity: 1; translate: none; }
+}
+
+/* ── Nav link underline grow ───────────────────────────── */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease-fluid);
+}
+.nav-link:hover::after,
+.nav-link[aria-current='page']::after {
+  transform: scaleX(1);
+}
+
+/* ── Reading progress bar (CSS scroll-driven, progressive enhancement) ─ */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reading-progress {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: 2px;
+      z-index: 70;
+      background: var(--color-crimson);
+      transform-origin: 0 50%;
+      transform: scaleX(0);
+      animation: reading-progress linear both;
+      animation-timeline: scroll(root);
+    }
+    @keyframes reading-progress {
+      to { transform: scaleX(1); }
+    }
+  }
+}
+
+/* ── Article body typography (.prose-atom) ────────────────── */
+.prose-atom {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: var(--color-ink);
+}
+.prose-atom > p {
+  margin-bottom: 1.4em;
+  max-width: 66ch;
+}
+.prose-atom > p:first-of-type::first-letter {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 3.4em;
+  line-height: 0.85;
+  float: left;
+  padding-right: 0.12em;
+  padding-top: 0.08em;
+  color: var(--color-crimson);
+}
+.prose-atom h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.65rem;
+  line-height: 1.25;
+  margin: 2em 0 0.7em;
+  letter-spacing: -0.01em;
+}
+.prose-atom h3 {
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin: 1.8em 0 0.6em;
+}
+.prose-atom a {
+  color: var(--color-crimson);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 0.2s var(--ease-fluid);
+}
+.prose-atom a:hover {
+  color: var(--color-crimson-deep);
+}
+.prose-atom blockquote {
+  border-left: 2px solid var(--color-crimson);
+  padding-left: 1.25rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.25rem;
+  line-height: 1.55;
+  margin: 1.8em 0;
+  color: var(--color-ink);
+}
+.prose-atom ul,
+.prose-atom ol {
+  margin: 0 0 1.4em 1.35em;
+  max-width: 62ch;
+}
+.prose-atom ul { list-style: disc; }
+.prose-atom ol { list-style: decimal; }
+.prose-atom li { margin-bottom: 0.45em; }
+.prose-atom li::marker { color: var(--color-crimson); }
+.prose-atom img {
+  width: 100%;
+  height: auto;
+  margin: 2em 0;
+}
+.prose-atom code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--color-paper-deep);
+  padding: 0.15em 0.4em;
+  border-radius: 0.25rem;
+}
+.prose-atom hr {
+  border: none;
+  border-top: 1px solid var(--color-line);
+  margin: 2.5em auto;
+  width: 33%;
+}
+
+/* ── Horizontal snap strip (gallery band) ─────────────────── */
+.snap-strip {
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.snap-strip::-webkit-scrollbar { display: none; }
+.snap-strip > * {
+  scroll-snap-align: start;
+}
+
+/* ── Lab-notebook graph-paper grid (site-wide) ────────── */
+body {
+  background-image:
+    linear-gradient(rgba(25, 22, 19, 0.032) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(25, 22, 19, 0.032) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+
+/* ── Hand-drawn scribble underline ───────────────── */
+.scribble {
+  position: absolute;
+  left: 0;
+  bottom: -0.22em;
+  width: 100%;
+  height: 0.22em;
+  pointer-events: none;
+  overflow: visible;
+}
+.scribble path {
+  fill: none;
+  stroke: var(--color-crimson);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+/* ── Floating periodic-table tiles ─────────────────── */
+.elem-tile {
+  position: absolute;
+  z-index: 10;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.6rem;
+  background: rgba(255, 254, 251, 0.94);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  line-height: 1.2;
+  text-align: left;
+  color: var(--color-ink-soft);
+  box-shadow: 0 1px 0 rgba(25, 22, 19, 0.04);
+  will-change: transform;
+}
+.elem-tile strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-crimson);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .elem-bob {
+    animation: elem-bob 7s ease-in-out infinite alternate;
+    animation-delay: var(--bob-delay, 0s);
+  }
+}
+@keyframes elem-bob {
+  from { translate: 0 -4px; }
+  to   { translate: 0 5px; }
+}
+
+/* ── Lab-log ticker (one marquee per page, that's the rule) ── */
+.ticker {
+  overflow: hidden;
+  border-block: 1px solid var(--color-line);
+}
+.ticker-track {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ticker-track {
+    animation: ticker-scroll 46s linear infinite;
+  }
+  .ticker:hover .ticker-track {
+    animation-play-state: paused;
+  }
+}
+@keyframes ticker-scroll {
+  to { transform: translateX(-50%); }
+}
+.ticker-item {
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--color-ink-soft);
+}
+.ticker-item em {
+  font-style: normal;
+  color: var(--color-crimson);
+}
+
+/* ── Custom scrollbar (nerd detail) ───────────── */
+@supports (scrollbar-width: thin) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(176, 30, 40, 0.45) transparent;
+  }
+}
+
+/* ── BANGER: lab notebook extras ───────────────────── */
+.lab-stamp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid var(--color-crimson);
+  color: var(--color-crimson);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.7rem;
+  transform: rotate(-2deg);
+  opacity: 0.9;
+  box-shadow: 0 0 0 1px var(--color-crimson) inset;
+}
+.lab-tape {
+  position: absolute;
+  width: 88px;
+  height: 22px;
+  background: rgba(176, 30, 40, 0.08);
+  border-left: 1px solid rgba(176, 30, 40, 0.15);
+  border-right: 1px solid rgba(176, 30, 40, 0.15);
+  backdrop-filter: blur(1px);
+  transform: rotate(-6deg);
+}
+.specimen-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  border: 1px solid var(--color-line);
+  padding: 0.25rem 0.5rem;
+  background: var(--color-surface);
+}
+.instrument-panel {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 0.9fr;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  overflow: hidden;
+  gap: 0;
+}
+@media (max-width: 768px) {
+  .instrument-panel {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.instrument-cell {
+  background: var(--color-surface);
+  padding: 1.25rem;
+  position: relative;
+  border-right: 1px solid var(--color-line);
+}
+.instrument-cell:last-child {
+  border-right: none;
+}
+@media (max-width: 768px) {
+  .instrument-cell {
+    border-bottom: 1px solid var(--color-line);
+  }
+  .instrument-cell:nth-child(2n) {
+    border-right: none;
+  }
+  .instrument-cell:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+}
+.instrument-cell.bg-crimson {
+  background: var(--color-crimson);
+}
+.instrument-cell.bg-crimson p,
+.instrument-cell.bg-crimson span {
+  color: var(--color-paper) !important;
+}
+.instrument-cell.bg-crimson p.text-paper\/70 { color: rgba(247,246,242,0.7) !important; }
+.instrument-cell.bg-crimson p.text-paper\/80 { color: rgba(247,246,242,0.8) !important; }
+.instrument-cell::after {
+  content: "";
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-crimson);
+  box-shadow: 0 0 8px rgba(176, 30, 40, 0.6);
+  opacity: 0.8;
+}
+.field-note {
+  position: relative;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+}
+.field-note::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 18px;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 31px,
+    rgba(176, 30, 40, 0.06) 31px 32px
+  );
+}
+.blueprint-watermark {
+  position: absolute;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 22vw;
+  line-height: 1;
+  color: var(--color-ink);
+  opacity: 0.035;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}

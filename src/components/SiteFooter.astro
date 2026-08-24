@@ -1,0 +1,64 @@
+---
+import AtomMark from './AtomMark.astro';
+
+// Editorial footer: giant wordmark, link columns, colophon.
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-28 border-t border-line">
+  <div class="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
+    <!-- Giant wordmark — fluid on small, centered on mobile -->
+    <div class="flex flex-col items-center gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
+      <p
+        class="font-display text-center text-[clamp(3rem,19vw,9rem)] font-semibold leading-[0.85] tracking-tight text-ink select-none sm:text-left"
+        aria-hidden="true"
+      >
+        ATOMS
+      </p>
+      <AtomMark class="h-10 w-10 shrink-0 text-crimson sm:mb-3 sm:h-14 sm:w-14 md:h-16 md:w-16" strokeWidth={4} />
+    </div>
+
+    <div class="mt-12 grid gap-10 border-t border-line pt-10 sm:grid-cols-3">
+      <!-- Explore -->
+      <nav aria-label="Footer">
+        <h2 class="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-soft">Explore</h2>
+        <ul class="mt-4 space-y-2.5 text-[15px]">
+          <li><a class="transition-colors hover:text-crimson" href="/about">About</a></li>
+          <li><a class="transition-colors hover:text-crimson" href="/events">Events</a></li>
+          <li><a class="transition-colors hover:text-crimson" href="/articles">Articles</a></li>
+          <li><a class="transition-colors hover:text-crimson" href="/reports">Reports</a></li>
+          <li><a class="transition-colors hover:text-crimson" href="/join">Join the club</a></li>
+        </ul>
+      </nav>
+
+      <!-- Contact -->
+      <div>
+        <h2 class="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-soft">Contact</h2>
+        <ul class="mt-4 space-y-2.5 text-[15px]">
+          <!-- TODO: replace with the club's real email -->
+          <li><a class="transition-colors hover:text-crimson" href="mailto:atoms@rosybuds.edu.np">atoms@rosybuds.edu.np</a></li>
+          <li class="text-ink-soft">Rosybuds School, Nepal</li>
+          <li class="text-ink-soft">Science Lab · Friday, 3 PM</li>
+        </ul>
+      </div>
+
+      <!-- Colophon -->
+      <div>
+        <h2 class="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-soft">Colophon</h2>
+        <p class="mt-4 text-[15px] leading-relaxed text-ink-soft">
+          Set in Playfair Display &amp; Outfit. Written, tested and published by members of
+          ATOMS — the science club of Rosybuds School.
+        </p>
+        <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-soft">
+          Lab visit nº <span id="visit-count">—</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-soft">
+      <p>© {year} ATOMS Science Club · Est. 2023</p>
+      <p>atom.rosybuds.edu.np</p>
+    </div>
+  </div>
+</footer>

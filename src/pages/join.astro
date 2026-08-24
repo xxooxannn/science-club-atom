@@ -1,0 +1,198 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// ── FORM SETUP (one-time, 5 minutes) ──────────────────────────
+// This form uses Web3Forms (free): submissions are emailed to the
+// club inbox. To activate:
+//   1. Create an access key at https://web3forms.com
+//   2. Replace YOUR_ACCESS_KEY below with the real key.
+// Until then the form shows a friendly notice instead of submitting.
+const formEnabled = false;
+---
+
+<BaseLayout
+  title="Join"
+  description="Join ATOMS — the science club of Rosybuds School. One form, no prerequisites."
+>
+  <section class="mx-auto max-w-6xl px-5 pt-10 md:px-8 md:pt-16">
+    <p class="font-mono text-[10px] uppercase tracking-[0.24em] text-crimson">Membership</p>
+    <h1 class="mt-5 font-display text-4xl font-semibold tracking-tight md:text-6xl">
+      Join the club.
+    </h1>
+    <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
+      No entrance test, no minimum grades, no prerequisites. If you're curious about something,
+      you're already our kind of people.
+    </p>
+  </section>
+
+  <div class="mx-auto mt-16 grid max-w-6xl gap-16 px-5 md:mt-20 md:grid-cols-[1fr_1.1fr] md:gap-12 md:px-8 lg:gap-20">
+    <!-- ── LEFT: ways in ─────────────────────────────────── -->
+    <section>
+      <h2 class="reveal font-display text-2xl font-semibold tracking-tight md:text-3xl">
+        Three ways in.
+      </h2>
+      <ol class="reveal mt-8 divide-y divide-line border-y border-line">
+        <li class="grid gap-1.5 py-7 sm:grid-cols-[48px_1fr] sm:gap-4">
+          <span class="font-mono text-sm text-crimson">01</span>
+          <div>
+            <h3 class="text-lg font-medium">Show up to lab night</h3>
+            <p class="mt-1.5 leading-relaxed text-ink-soft">
+              Every Friday, 3 PM, science labs. Just come. That's genuinely it — most members
+              started exactly this way.
+            </p>
+          </div>
+        </li>
+        <li class="grid gap-1.5 py-7 sm:grid-cols-[48px_1fr] sm:gap-4">
+          <span class="font-mono text-sm text-crimson">02</span>
+          <div>
+            <h3 class="text-lg font-medium">Pitch a project</h3>
+            <p class="mt-1.5 leading-relaxed text-ink-soft">
+              Have an experiment in mind? Use the form to pitch it. The club funds materials for
+              the best idea each month.
+            </p>
+          </div>
+        </li>
+        <li class="grid gap-1.5 py-7 sm:grid-cols-[48px_1fr] sm:gap-4">
+          <span class="font-mono text-sm text-crimson">03</span>
+          <div>
+            <h3 class="text-lg font-medium">Submit your writing</h3>
+            <p class="mt-1.5 leading-relaxed text-ink-soft">
+              Finished a project? Write it up and send it through the form — after moderator
+              review, it's published on this site with your name on it.
+            </p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="reveal mt-10 rounded-2xl bg-paper-deep p-6">
+        <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-soft">When &amp; where</p>
+        <p class="mt-2.5 font-display text-xl font-semibold tracking-tight">
+          Fridays · 3 PM · Science Labs
+        </p>
+        <p class="mt-1.5 text-sm text-ink-soft">
+          Rosybuds School · or email us at atoms@rosybuds.edu.np
+        </p>
+      </div>
+    </section>
+
+    <!-- ── RIGHT: the form (double-bezel card) ───────────── -->
+    <section aria-label="Submission form">
+      <div class="reveal rounded-[2rem] bg-ink/[0.04] p-2 ring-1 ring-line">
+        <div class="rounded-[calc(2rem-0.5rem)] bg-surface p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)] md:p-9">
+          {
+            formEnabled ? (
+              <form action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
+                <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY" />
+                <input type="hidden" name="subject" value="New message from atom.rosybuds.edu.np" />
+                <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
+
+                <div>
+                  <label for="name" class="text-sm font-medium">Full name</label>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    placeholder="Your name"
+                    class="mt-2 w-full rounded-xl border border-line bg-paper px-4 py-3 transition-colors duration-300 ease-fluid placeholder:text-ink-soft/60 focus:border-crimson focus:outline-none"
+                  />
+                </div>
+
+                <div class="grid gap-6 sm:grid-cols-2">
+                  <div>
+                    <label for="grade" class="text-sm font-medium">Grade &amp; section</label>
+                    <input
+                      id="grade"
+                      name="grade"
+                      type="text"
+                      required
+                      placeholder="e.g. 11 'A'"
+                      class="mt-2 w-full rounded-xl border border-line bg-paper px-4 py-3 transition-colors duration-300 ease-fluid placeholder:text-ink-soft/60 focus:border-crimson focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label for="email" class="text-sm font-medium">Email</label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      placeholder="you@example.com"
+                      class="mt-2 w-full rounded-xl border border-line bg-paper px-4 py-3 transition-colors duration-300 ease-fluid placeholder:text-ink-soft/60 focus:border-crimson focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label for="intent" class="text-sm font-medium">I want to…</label>
+                  <select
+                    id="intent"
+                    name="intent"
+                    required
+                    class="mt-2 w-full appearance-none rounded-xl border border-line bg-paper px-4 py-3 transition-colors duration-300 ease-fluid focus:border-crimson focus:outline-none"
+                  >
+                    <option value="" disabled selected>Choose one</option>
+                    <option>Join the club</option>
+                    <option>Pitch a project idea</option>
+                    <option>Submit an article or report</option>
+                    <option>Invite ATOMS to an event</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="message" class="text-sm font-medium">Message</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="5"
+                    placeholder="Tell us what you're curious about…"
+                    class="mt-2 w-full resize-y rounded-xl border border-line bg-paper px-4 py-3 transition-colors duration-300 ease-fluid placeholder:text-ink-soft/60 focus:border-crimson focus:outline-none"></textarea>
+                  <p class="mt-2 text-xs text-ink-soft">
+                    Submitting writing? Paste your draft here or mention that you'll bring it to
+                    lab night.
+                  </p>
+                </div>
+
+                <button
+                  type="submit"
+                  class="group inline-flex items-center gap-2.5 rounded-full bg-crimson py-2 pl-6 pr-2 text-base font-medium text-paper transition-all duration-300 ease-fluid hover:bg-crimson-deep active:scale-[0.98]"
+                >
+                  Send it
+                  <span
+                    class="flex h-9 w-9 items-center justify-center rounded-full bg-paper/15 transition-transform duration-300 ease-fluid group-hover:translate-x-0.5"
+                    aria-hidden="true">→</span
+                  >
+                </button>
+                <p class="text-xs leading-relaxed text-ink-soft">
+                  Submissions go to the club inbox and are reviewed by moderators before anything
+                  is published. We never share your details.
+                </p>
+              </form>
+            ) : (
+              <div>
+                <h2 class="font-display text-2xl font-semibold tracking-tight">The form is warming up.</h2>
+                <p class="mt-4 leading-relaxed text-ink-soft">
+                  Online submissions open soon. Until then, join us the classic way — show up to a
+                  Friday lab night, or email us directly.
+                </p>
+                <a
+                  href="mailto:atoms@rosybuds.edu.np?subject=I%20want%20to%20join%20ATOMS"
+                  class="group mt-7 inline-flex items-center gap-2.5 rounded-full bg-crimson py-2 pl-6 pr-2 font-medium text-paper transition-all duration-300 ease-fluid hover:bg-crimson-deep active:scale-[0.98]"
+                >
+                  Email the club
+                  <span
+                    class="flex h-9 w-9 items-center justify-center rounded-full bg-paper/15 transition-transform duration-300 ease-fluid group-hover:translate-x-0.5"
+                    aria-hidden="true">→</span
+                  >
+                </a>
+                <p class="mt-5 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-soft">
+                  Web3Forms key not configured yet — see README
+                </p>
+              </div>
+            )
+          }
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

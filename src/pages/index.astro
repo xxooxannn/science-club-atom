@@ -1,0 +1,422 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AtomMark from '../components/AtomMark.astro';
+
+const articles = (await getCollection('articles', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const [featured, ...rest] = articles;
+
+const formatDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+const quoteText = '“Science isn’t a subject. It’s refusing to take the universe’s word for anything.”';
+const quoteWords = quoteText.split(' ');
+---
+
+<BaseLayout title="Home">
+  <!-- ── HERO: LAB BENCH ─────────────────────────────── -->
+  <section class="relative pb-8 md:pb-12">
+
+    <div class="relative mx-auto max-w-6xl px-5 md:px-8">
+      <!-- top specimen bar -->
+      <div class="flex flex-wrap items-center justify-between gap-2 border-y border-line py-2.5 mt-2 sm:py-3">
+        <p class="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.18em] sm:tracking-[0.22em] text-ink-soft">Specimen Log // ATOMS-2023-NP</p>
+        <div class="flex items-center gap-2">
+          <span class="lab-stamp text-[8px] sm:text-[9px] py-1 px-2">Declassified</span>
+          <span class="hidden sm:inline font-mono text-[9px] uppercase tracking-[0.18em] text-ink-soft">Exp. 03 · Third Committee</span>
+        </div>
+      </div>
+
+      <div class="grid items-start gap-6 pt-6 sm:gap-8 sm:pt-8 md:pt-10 lg:grid-cols-[1.25fr_0.85fr] lg:gap-6">
+        <div class="relative">
+          
+          <p class="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.18em] sm:tracking-[0.24em] text-crimson" data-hero="eyebrow">
+            Rosybuds School · Est. 2023<span class="hidden sm:inline"> — Friday 15:00 · Physics Lab</span>
+          </p>
+          
+          <h1 class="mt-3 sm:mt-4 font-display font-[800] leading-[0.88] tracking-[-0.04em]">
+            <span class="block overflow-hidden pb-[0.08em] -mb-[0.08em] text-[2.35rem] sm:text-[3.6rem] lg:text-[4.6rem]"><span class="hero-line block">THINK.</span></span>
+            <span class="block overflow-hidden pb-[0.08em] -mb-[0.08em] text-[2.35rem] sm:text-[3.6rem] lg:text-[4.6rem]"><span class="hero-line block">TEST.</span></span>
+            <span class="relative block overflow-hidden pb-[0.32em] -mb-[0.06em] text-[2.35rem] sm:text-[3.6rem] lg:text-[4.6rem]"><span class="hero-line block">REPEAT.<svg class="scribble w-[88%] sm:w-full" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M2 9 C 60 2, 140 2, 198 9" /></svg></span></span>
+          </h1>
+
+          <!-- annotation -->
+          <div class="mt-3 sm:mt-4 flex gap-2.5 font-mono text-[9px] sm:text-[10px] leading-relaxed text-ink-soft">
+            <span class="text-crimson">↳</span>
+            <span class="max-w-md">If you didn't write it down, it didn't happen. — Founders' rule.</span>
+          </div>
+
+          <p class="mt-5 sm:mt-6 max-w-[42ch] text-[16px] sm:text-[17px] leading-relaxed text-ink-soft" data-hero="sub">
+            We run real experiments, publish real findings, and argue until the data settles it.
+          </p>
+
+          <div class="mt-6 sm:mt-8 flex flex-wrap items-center gap-2.5 sm:gap-3" data-hero="cta">
+            <a href="/join" class="magnetic group inline-flex items-center gap-2.5 rounded-full bg-crimson py-2.5 pl-6 pr-2.5 text-[15px] font-medium text-paper transition-colors duration-300 ease-fluid hover:bg-crimson-deep active:scale-[0.98]">
+              Join the lab
+              <span class="flex h-8 w-8 items-center justify-center rounded-full bg-paper/15 transition-transform duration-300 ease-fluid group-hover:translate-x-0.5" aria-hidden="true">→</span>
+            </a>
+            <a href="/articles" class="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-5 py-2.5 text-[15px] transition-colors duration-300 ease-fluid hover:border-crimson hover:text-crimson active:scale-[0.98]">
+              Read field notes
+            </a>
+            <span class="hidden sm:inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft">
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Lab open
+            </span>
+          </div>
+
+
+        </div>
+
+        <!-- Specimen figure — static, clean -->
+        <div class="relative lg:sticky lg:top-8 max-w-[320px] mx-auto w-full sm:max-w-[320px] lg:max-w-none lg:mx-0">
+          <div class="relative rounded-[1.6rem] border border-line bg-surface p-3 shadow-[0_8px_30px_rgba(25,22,19,0.06)]">
+            <div class="absolute -top-2 -right-2 lab-stamp bg-paper text-[8px] rotate-[3deg]">Fig. 01</div>
+            <div id="atom-figure" class="relative aspect-square w-full overflow-hidden rounded-[1.2rem] bg-paper-deep">
+              <AtomMark class="absolute inset-0 h-full w-full p-8 text-crimson" strokeWidth={2.2} />
+              <div class="absolute bottom-2 left-3 font-mono text-[9px] uppercase tracking-[0.14em] text-ink-soft">fig. 01 — ATOMS</div>
+            </div>
+            <div class="mt-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-ink-soft">
+              <span>Rosybuds · Lab</span>
+              <span>Est. 2023</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── INSTRUMENT PANEL ─────────────────────────────── -->
+  <section class="mx-auto mt-10 max-w-6xl px-5 md:px-8">
+    <div class="instrument-panel reveal">
+      <div class="instrument-cell">
+        <p class="font-mono text-[9px] uppercase tracking-[0.18em] text-ink-soft">Est.</p>
+        <p class="mt-2 font-display text-4xl font-bold tracking-tight">2023</p>
+        <p class="mt-1 font-mono text-[10px] leading-tight text-ink-soft">Two batches graduated.<br/>You are the third.</p>
+      </div>
+      <div class="instrument-cell">
+        <p class="font-mono text-[9px] uppercase tracking-[0.18em] text-ink-soft">Cycle</p>
+        <p class="mt-2 font-display text-3xl font-bold">3rd</p>
+        <p class="mt-1 font-mono text-[10px] text-ink-soft">Committee</p>
+        <div class="mt-3 h-1 w-full bg-paper-deep overflow-hidden rounded-full"><div class="h-full w-[66%] bg-crimson"></div></div>
+      </div>
+      <div class="instrument-cell">
+        <p class="font-mono text-[9px] uppercase tracking-[0.18em] text-ink-soft">Schedule</p>
+        <p class="mt-2 font-display text-2xl font-bold leading-none">Every<br/>Friday</p>
+        <p class="mt-2 inline-flex items-center gap-1 font-mono text-[10px] text-crimson">● 15:00 <span class="text-ink-soft">Physics Lab</span></p>
+      </div>
+      <div class="instrument-cell bg-crimson text-paper">
+        <p class="font-mono text-[9px] uppercase tracking-[0.18em] text-paper/70">Access</p>
+        <p class="mt-2 font-display text-2xl font-bold leading-none">All<br/>grades</p>
+        <p class="mt-2 font-mono text-[10px] text-paper/80">No test.<br/>Just curiosity.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── LAB-LOG TICKER ─────────────────────────────── -->
+  <section class="mt-10" aria-hidden="true">
+    <div class="ticker">
+      <div class="ticker-track">
+        <span class="ticker-item">E = mc²</span><span class="ticker-item"><em>·</em> F = ma</span><span class="ticker-item"><em>·</em> PV = nRT</span><span class="ticker-item"><em>·</em> λ = h / p</span><span class="ticker-item"><em>·</em> c = 299,792,458 m/s</span><span class="ticker-item"><em>·</em> π ≈ 3.14159265</span><span class="ticker-item"><em>·</em> mₑ = 9.109×10⁻³¹ kg</span><span class="ticker-item"><em>·</em> ΔG = ΔH − TΔS</span><span class="ticker-item"><em>·</em> sin²θ + cos²θ = 1</span><span class="ticker-item"><em>·</em> water boils softer in Kathmandu</span><span class="ticker-item"><em>·</em> ATOMS · every Friday</span><span class="ticker-item"><em>·</em> est. 2023</span>
+        <span class="ticker-item">E = mc²</span><span class="ticker-item"><em>·</em> F = ma</span><span class="ticker-item"><em>·</em> PV = nRT</span><span class="ticker-item"><em>·</em> λ = h / p</span><span class="ticker-item"><em>·</em> c = 299,792,458 m/s</span><span class="ticker-item"><em>·</em> π ≈ 3.14159265</span><span class="ticker-item"><em>·</em> mₑ = 9.109×10⁻³¹ kg</span><span class="ticker-item"><em>·</em> ΔG = ΔH − TΔS</span><span class="ticker-item"><em>·</em> sin²θ + cos²θ = 1</span><span class="ticker-item"><em>·</em> water boils softer in Kathmandu</span><span class="ticker-item"><em>·</em> ATOMS · every Friday</span><span class="ticker-item"><em>·</em> est. 2023</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FIELD NOTES: BENTO ──────────────────────────── -->
+  <section class="mx-auto mt-20 max-w-6xl px-5 md:mt-28 md:px-8">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <h2 class="font-display text-4xl font-bold tracking-tight md:text-5xl">
+        <span class="mr-3 align-middle font-mono text-xs font-normal tracking-[0.2em] text-crimson max-sm:hidden">EXP.01</span>Field notes.
+      </h2>
+      <a href="/articles" class="font-mono text-[11px] uppercase tracking-[0.16em] text-crimson underline decoration-line underline-offset-4 hover:text-crimson-deep">
+        View all → Lab journal
+      </a>
+    </div>
+
+    {
+      featured && (
+        <div class="reveal mt-10 grid gap-4 lg:grid-cols-[1.6fr_1fr]">
+          <!-- large torn field note -->
+          <article class="field-note group relative overflow-hidden rounded-2xl p-0 flex flex-col">
+            <div class="lab-tape -top-2 left-1/2 -translate-x-1/2 rotate-1 hidden md:block"></div>
+            <a href={`/articles/${featured.id}`} class="flex flex-1 flex-col">
+              {featured.data.image && (
+                <div class="relative overflow-hidden">
+                  <img src={featured.data.image} alt="" width="960" height="600" loading="lazy" class="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-fluid group-hover:scale-[1.02]" />
+                  <div class="absolute left-3 top-3 specimen-label bg-paper/90 backdrop-blur">Specimen // {featured.data.pubDate.getFullYear()} · {featured.data.tags[0]}</div>
+                </div>
+              )}
+              <div class="flex flex-1 flex-col p-6 md:p-8 pl-8 md:pl-10">
+                <h3 class="font-display text-[1.7rem] font-bold leading-tight tracking-tight md:text-3xl group-hover:text-crimson transition-colors">{featured.data.title}</h3>
+                <p class="mt-3 max-w-xl leading-relaxed text-ink-soft">{featured.data.description}</p>
+                <div class="mt-5 hidden md:grid grid-cols-[72px_1fr] gap-x-3 gap-y-1.5 border-l-2 border-crimson/15 pl-4 py-1">
+                  <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-soft">Cost</span><span class="font-mono text-xs text-ink">Plastic box + dry ice + alcohol · NPR 1,200</span>
+                  <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-soft">Result</span><span class="font-mono text-xs text-ink">Muon trails · 0.5 sec · 3 events / minute</span>
+                  <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-soft">Note</span><span class="font-mono text-xs italic text-ink-soft">“Wait 20 minutes. The universe shows up.”</span>
+                </div>
+                <p class="mt-auto pt-6 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft">{featured.data.author} · {formatDate(featured.data.pubDate)} <span class="text-crimson">↗</span></p>
+              </div>
+            </a>
+          </article>
+
+          <!-- stack of smaller notes -->
+          <div class="grid gap-4">
+            {rest.slice(0, 2).map((post) => (
+              <a href={`/articles/${post.id}`} class="field-note group flex flex-col overflow-hidden rounded-2xl transition-colors hover:border-crimson/30">
+                {post.data.image && (
+                  <div class="relative overflow-hidden">
+                    <img src={post.data.image} alt="" width="960" height="600" loading="lazy" class="aspect-[16/10] w-full object-cover transition-transform duration-700 ease-fluid group-hover:scale-[1.02]" />
+                    <div class="absolute left-3 top-3 specimen-label bg-paper/90 backdrop-blur text-[8px]">{post.data.tags[0]}</div>
+                  </div>
+                )}
+                <div class="flex flex-1 flex-col p-5 pl-6">
+                  <h3 class="font-display text-[1.05rem] font-bold leading-tight group-hover:text-crimson transition-colors">{post.data.title}</h3>
+                  <p class="mt-2 line-clamp-2 text-sm leading-relaxed text-ink-soft">{post.data.description}</p>
+                  <p class="mt-3 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-soft">{post.data.author} · {post.data.pubDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</p>
+                </div>
+              </a>
+            ))}
+            {rest.length === 0 && (
+              <div class="field-note rounded-2xl p-6 pl-8 border-dashed">
+                <p class="font-mono text-xs uppercase tracking-[0.16em] text-ink-soft">Next specimen pending</p>
+                <p class="mt-2 text-sm leading-relaxed text-ink-soft">Your field note could be here. Bring a draft to lab night.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )
+    }
+
+    {rest.length > 2 && (
+      <ul class="reveal mt-4 divide-y divide-line border-y border-line">
+        {rest.slice(2).map((post) => (
+          <li>
+            <a href={`/articles/${post.id}`} class="group grid grid-cols-[auto_1fr_auto] items-baseline gap-x-6 py-5 max-sm:gap-x-3">
+              <span class="w-20 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft max-sm:w-14">{post.data.pubDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+              <span class="text-[15px] font-medium leading-tight group-hover:text-crimson transition-colors">{post.data.title}</span>
+              <span class="text-ink-soft group-hover:translate-x-1 group-hover:text-crimson transition-all duration-300" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+
+  <!-- ── PUBLISHING TRACK: FROM NOTEBOOK TO JOURNAL ───── -->
+  <section class="mx-auto mt-20 max-w-6xl px-5 md:mt-28 md:px-8">
+    <div class="reveal relative overflow-hidden rounded-[1.6rem] border border-line bg-paper-deep">
+      <div class="absolute left-1/2 top-0 h-5 w-28 -translate-x-1/2 rounded-b-xl bg-ink sm:h-6 sm:w-32"></div>
+      <div class="absolute left-1/2 top-1 h-2.5 w-16 -translate-x-1/2 rounded-full bg-paper/20 sm:h-3 sm:w-20"></div>
+      <div class="grid gap-5 p-5 pt-10 sm:gap-6 sm:p-6 sm:pt-10 md:grid-cols-[auto_1fr_auto] md:items-center md:p-8 md:pt-10">
+        <div class="mx-auto flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-xl border border-crimson/20 bg-surface sm:h-20 sm:w-20 md:mx-0">
+          <span class="font-display text-[15px] font-bold leading-none text-crimson sm:text-lg">PEER</span>
+          <span class="font-mono text-[8px] uppercase tracking-[0.16em] text-crimson sm:text-[9px]">Review</span>
+          <span class="mt-1 font-mono text-[7px] uppercase tracking-[0.14em] text-ink-soft sm:text-[8px]">48H</span>
+        </div>
+        <div class="text-center md:text-left">
+          <p class="font-mono text-[9px] uppercase leading-relaxed tracking-[0.14em] text-crimson sm:text-[10px] sm:tracking-[0.16em] text-center md:text-left"><span class="mr-1.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-crimson align-middle"></span>From notebook → journal · Get published</p>
+          <h2 class="mx-auto mt-2 max-w-[14ch] font-display text-[1.65rem] font-bold leading-[1.05] tracking-tight sm:mx-0 sm:max-w-none sm:text-2xl md:mt-1">Your experiment deserves a byline.</h2>
+          <p class="mx-auto mt-2 max-w-xl text-[14px] leading-relaxed text-ink-soft sm:text-sm md:mx-0">Write it up, get reviewed by the committee in 48 hours, and see it live on the journal with your name on it. No grades — just clear writing.</p>
+        </div>
+        <div class="flex flex-col gap-2.5 pt-1 sm:pt-0 md:shrink-0">
+          <a href="/join" class="magnetic inline-flex w-full items-center justify-center rounded-full bg-crimson px-6 py-3.5 text-[15px] font-medium text-paper transition-colors hover:bg-crimson-deep active:scale-[0.98] sm:py-3 sm:text-sm md:w-auto">Submit a note →</a>
+          <a href="/articles" class="inline-flex items-center justify-center font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft hover:text-crimson">View publishing guide</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WHY STUDENTS STAY — VERTICAL LOG (no cards, no bento) -->
+  <section class="mx-auto mt-20 max-w-6xl px-5 md:mt-28 md:px-8">
+    <h2 class="reveal font-display text-4xl font-bold tracking-tight md:text-5xl">
+      <span class="mr-3 align-middle font-mono text-xs font-normal tracking-[0.2em] text-crimson max-md:hidden">EXP.02</span>Why students stay.
+    </h2>
+    <p class="reveal mt-3 max-w-xl font-mono text-xs uppercase tracking-[0.16em] text-ink-soft">Three real reasons people come back after the first Friday.</p>
+
+    <ol class="mt-10 divide-y divide-line border-y border-line">
+      <li class="reveal grid gap-3 py-8 md:grid-cols-[96px_1fr] md:gap-8 md:py-10">
+        <span class="font-display text-5xl font-[800] leading-none tracking-tight text-crimson">01</span>
+        <div>
+          <h3 class="font-display text-2xl font-bold leading-tight tracking-tight">Build things you can't at home.</h3>
+          <p class="mt-3 max-w-2xl text-[15px] leading-relaxed text-ink-soft">In class you read about muons. Here you wait 22 minutes in a dark room until one draws itself in fog. Same with water rockets, crystals, air sensors — you actually touch it. Pipettes, dry ice, cheap sensors, a lot of tape. If it breaks, you fix it.</p>
+          <p class="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-crimson">No grades · Just try →</p>
+        </div>
+      </li>
+      <li class="reveal grid gap-3 py-8 md:grid-cols-[96px_1fr] md:gap-8 md:py-10" style="--reveal-delay: 90ms">
+        <span class="font-display text-5xl font-[800] leading-none tracking-tight text-crimson">02</span>
+        <div>
+          <h3 class="font-display text-2xl font-bold leading-tight tracking-tight">Get your name on the journal.</h3>
+          <p class="mt-3 max-w-2xl text-[15px] leading-relaxed text-ink-soft">Write it clearly, get two readers and a 48-hour edit, and see it live at <span class="font-mono text-crimson">atom.rosybuds.edu.np</span> with your byline. Teachers share it. You cite it later.</p>
+          <p class="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">byline · citable · yours</p>
+        </div>
+      </li>
+      <li class="reveal grid gap-3 py-8 md:grid-cols-[96px_1fr] md:gap-8 md:py-10" style="--reveal-delay: 170ms">
+        <span class="font-display text-5xl font-[800] leading-none tracking-tight text-crimson">03</span>
+        <div>
+          <h3 class="font-display text-2xl font-bold leading-tight tracking-tight">Find your bench.</h3>
+          <p class="mt-3 max-w-2xl text-[15px] leading-relaxed text-ink-soft">Two batches built this before you. You add the next page, and next year's kids start where you left off. It's the only club that gets better after you leave. Stay as long as you want.</p>
+          <p class="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">↳ 2 years of notes waiting for the next layer</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ── ARCHIVE DRAWER — CURATED, NOT FILLER ─ -->
+  <section id="specimen-drawer" class="relative mt-20 h-[180vh] md:mt-28 md:h-[280vh]">
+    <div class="sticky top-0 flex min-h-[100dvh] flex-col justify-center overflow-hidden py-8">
+      <div class="mx-auto w-full max-w-6xl px-5 md:px-8">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <h2 class="reveal font-display text-4xl font-bold tracking-tight md:text-5xl">
+            <span class="mr-3 align-middle font-mono text-xs font-normal tracking-[0.2em] text-crimson max-sm:hidden">APP.A</span>Specimen drawer.
+          </h2>
+          <p class="pb-1 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft"><span class="hidden md:inline">Scroll ↓ to slide → · </span>3 real nights · 2025</p>
+        </div>
+      </div>
+      <div id="drawer-track" class="mt-8 flex gap-4 px-5 md:px-[max(1.25rem,calc((100vw-72rem)/2+2rem))] will-change-transform">
+      {[
+          {
+            label: 'Specimen 01 · Cloud chamber',
+            img: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=768&h=576&fit=crop&auto=format&q=80&sat=-100',
+            title: 'First trail · 22 min',
+            desc: 'Muon from a dying star, ending its run in a plastic box on the second floor.',
+          },
+          {
+            label: 'Specimen 02 · Chiya lab',
+            img: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=768&h=576&fit=crop&auto=format&q=80&sat=-100',
+            title: '14 brews · 7/9 preferred B',
+            desc: 'Cold milk from the start — softer, less tannin. Your grandmother was right.',
+          },
+          {
+            label: 'Specimen 03 · Air log',
+            img: 'https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=768&h=576&fit=crop&auto=format&q=80&sat=-100',
+            title: 'Courtyard cleanest',
+            desc: 'Closed classroom worse than the road. 30% drop after 10 min with windows open.',
+          },
+          {
+            label: 'Archive 04 · Water rockets',
+            img: 'https://images.unsplash.com/photo-1517976487492-5750f3195933?w=768&h=576&fit=crop&auto=format&q=80&sat=-100',
+            title: '40 psi · Max wingspan your call',
+            desc: 'Annual launch day — spectators welcome, umbrellas advised.',
+          },
+          {
+            label: 'Archive 05 · Microscopy',
+            img: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=768&h=576&fit=crop&auto=format&q=80&sat=-100',
+            title: 'Onion cells · 400×',
+            desc: 'First time most members used a compound microscope.',
+          },
+          {
+            label: 'Archive 06 · Pi Day',
+            img: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=768&h=576&fit=crop&auto=format&q=80&sat=-100',
+            title: 'Pi Day · Exhibition',
+            desc: 'Stalls, demos and the recitation contest — third edition, biggest crowd.',
+          },
+          {
+            label: 'Archive 07 · Lab night',
+            img: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=768&h=576&fit=crop&auto=format&q=80&sat=-100',
+            title: 'Friday 15:00 · Physics Lab',
+            desc: 'The bench where it all happens. Bring your notebook.',
+          },
+        ].map((s) => (
+          <figure class="relative w-[280px] shrink-0 overflow-hidden rounded-2xl border border-line bg-surface sm:w-[320px] md:w-[480px]">
+            <div class="absolute left-3 top-3 z-10 specimen-label bg-paper/90 backdrop-blur text-[8px]">{s.label}</div>
+            <img src={s.img} alt="" width="768" height="576" loading="lazy" class="aspect-[4/3] w-full object-cover" />
+            <figcaption class="border-t border-line bg-surface p-4">
+              <h3 class="font-display text-[15px] font-bold leading-tight tracking-tight">{s.title}</h3>
+              <p class="mt-1 text-xs leading-relaxed text-ink-soft">{s.desc}</p>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+    <div class="mx-auto mt-6 flex w-full max-w-6xl justify-end px-5 md:px-8">
+      <a href="/gallery" class="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-crimson underline decoration-line underline-offset-4 hover:text-crimson-deep">View full archive → 24 photos <span class="hidden md:inline">· Gallery</span></a>
+    </div>
+  </div>
+  </section>
+
+  <!-- ── MANIFESTO: DETECTIVE BOARD — 3 TAPED NOTES ─ -->
+  <section class="relative mx-auto mt-12 max-w-6xl px-5 md:mt-20 md:px-8">
+    <!-- board background -->
+    <div class="absolute inset-0 -z-10 mx-5 rounded-[2rem] bg-paper-deep/60 border border-line/50 md:mx-8" aria-hidden="true"></div>
+    <!-- faint connecting strings (desktop only) -->
+    <svg class="pointer-events-none absolute inset-0 hidden md:block -z-10" aria-hidden="true">
+      <line x1="22%" y1="28%" x2="50%" y2="42%" stroke="rgba(176,30,40,0.12)" stroke-width="1" stroke-dasharray="4 6" />
+      <line x1="78%" y1="32%" x2="52%" y2="48%" stroke="rgba(176,30,40,0.12)" stroke-width="1" stroke-dasharray="4 6" />
+      <line x1="30%" y1="72%" x2="48%" y2="62%" stroke="rgba(176,30,40,0.12)" stroke-width="1" stroke-dasharray="4 6" />
+    </svg>
+
+    <div class="relative py-10 md:py-14">
+      <p class="text-center font-mono text-[10px] uppercase tracking-[0.22em] text-ink-soft">Board · Notes from the wall</p>
+      <div class="relative mx-auto mt-8 grid max-w-5xl gap-6 md:grid-cols-12 md:gap-4">
+        <!-- Note 1 — top left, tilted -2deg -->
+        <div class="reveal relative rounded-xl border border-line bg-surface p-6 shadow-[0_8px_24px_rgba(25,22,19,0.06)] md:col-span-5 md:rotate-[-1.8deg] md:-translate-y-2">
+          <div class="lab-tape -top-3 left-1/2 -translate-x-1/2 rotate-[-2deg] w-[72px]"></div>
+          <p class="font-display text-lg font-bold leading-tight">“If you didn’t write it down,<br/>it didn’t happen.”</p>
+          <p class="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-soft">Founders’ rule · taped to the lab wall since 2023</p>
+        </div>
+        <!-- Note 2 — top right, tilted +1.5deg -->
+        <div class="reveal relative rounded-xl border border-line bg-surface p-6 shadow-[0_8px_24px_rgba(25,22,19,0.06)] md:col-span-4 md:col-start-8 md:rotate-[1.6deg] md:translate-y-3" style="--reveal-delay: 80ms">
+          <div class="lab-tape -top-3 left-1/2 -translate-x-1/2 rotate-[3deg] w-[72px]"></div>
+          <p class="font-display text-[15px] font-bold leading-tight">Lab night is open.<br/>No test. Just curiosity.</p>
+          <p class="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-soft">Fridays 15:00 · Physics Lab · All grades</p>
+        </div>
+        <!-- Main manifesto — center, larger, slight tilt -->
+        <div class="reveal relative rounded-2xl border border-line bg-surface p-7 md:p-9 shadow-[0_16px_48px_rgba(25,22,19,0.08)] md:col-span-8 md:col-start-3 md:rotate-[-0.6deg] md:-mt-2">
+          <div class="lab-tape -top-3 left-1/2 -translate-x-1/2"></div>
+          <div class="absolute -right-2 -top-2 h-6 w-6 rounded-full bg-crimson/10 border border-crimson/20 hidden md:flex items-center justify-center font-mono text-[10px] text-crimson">●</div>
+          <blockquote>
+            <p class="font-display text-[1.55rem] font-medium leading-snug tracking-tight md:text-[2rem]">
+              {quoteWords.map((w, i) => (
+                <>
+                  <span class="q-word inline-block">{w}</span>
+                  {i < quoteWords.length - 1 ? ' ' : ''}
+                </>
+              ))}
+            </p>
+            <footer class="mt-5 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft">
+              <span class="h-px w-8 bg-line"></span> ATOMS founding members, 2023
+            </footer>
+          </blockquote>
+        </div>
+        <!-- Note 3 — bottom, small, tilted -->
+        <div class="reveal hidden md:block relative rounded-xl border border-dashed border-line bg-paper p-5 md:col-span-4 md:col-start-2 md:rotate-[1.2deg]" style="--reveal-delay: 160ms">
+          <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson">Third committee · Still calibrating</p>
+          <p class="mt-2 text-sm leading-relaxed text-ink-soft">Two batches before you. You add the next page. <span class="font-mono text-xs text-ink">→ atom.rosybuds.edu.np</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA: REACTOR — SPLIT BENCH, NOT CENTERED PILL ─ -->
+  <section class="mx-auto mt-20 max-w-6xl px-5 md:mt-28 md:px-8">
+    <div class="reveal grid overflow-hidden rounded-[1.6rem] border border-line lg:grid-cols-[1.25fr_0.85fr]">
+      <!-- Left: the ask -->
+      <div class="bg-ink p-8 md:p-10 flex flex-col">
+        <div>
+          <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-paper/60">Reactor status: idle · awaiting input</p>
+          <h2 class="mt-3 font-display text-3xl font-bold leading-[0.9] tracking-tight text-paper md:text-4xl">Ready to cause<br/>a reaction?</h2>
+          <p class="mt-4 max-w-md text-sm leading-relaxed text-paper/65">One form. No prerequisites. The lab is waiting for your notebook. Show up Friday or send a note — your bench is ready.</p>
+        </div>
+        <a href="/join" class="magnetic mt-8 inline-flex self-start items-center gap-2.5 rounded-full bg-crimson py-2.5 pl-6 pr-2.5 text-[15px] font-medium text-paper transition-colors hover:bg-crimson-deep">
+          Join the lab
+          <span class="flex h-8 w-8 items-center justify-center rounded-full bg-paper/15 group-hover:translate-x-0.5 transition-transform" aria-hidden="true">→</span>
+        </a>
+      </div>
+      <!-- Right: next bench / log — not decoration -->
+      <div class="relative bg-paper-deep p-6 md:p-8 flex flex-col justify-between overflow-hidden">
+        <div class="pointer-events-none absolute -right-10 -top-10 h-48 w-48 text-crimson/[0.07]" aria-hidden="true"><AtomMark class="h-full w-full" strokeWidth={1.8} /></div>
+        <div class="relative">
+          <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-soft">Next bench</p>
+          <p class="mt-2 font-display text-2xl font-bold leading-none tracking-tight">Friday 15:00</p>
+          <p class="font-mono text-xs leading-relaxed text-ink-soft">Physics Lab · Bring your notebook</p>
+          <div class="mt-4 inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-soft">3 spots open <span class="text-crimson">·</span> No test</div>
+        </div>
+        <div class="relative mt-8 border-t border-line pt-4">
+          <p class="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-soft">Last log</p>
+          <p class="mt-1.5 font-mono text-xs leading-relaxed text-ink">“We boiled 14 cups of chiya in one afternoon.” <span class="text-ink-soft">— Chiya lab, May 2025</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,56 @@
+[
+  {
+    "date": "2025-08-29",
+    "day": "Friday",
+    "time": "3:00 PM",
+    "location": "Physics Lab",
+    "title": "Weekly Meet — Cloud Chamber Night II",
+    "description": "Round two with the cloud chamber. We're testing whether a Peltier cooler can replace dry ice so the setup becomes reusable. Bring your observations notebook.",
+    "upcoming": true
+  },
+  {
+    "date": "2025-09-05",
+    "day": "Friday",
+    "time": "3:00 PM",
+    "location": "Chemistry Lab",
+    "title": "Weekly Meet + Report Writing Workshop",
+    "description": "How to turn a messy lab session into an actual published report — structure, data presentation, and citations. Led by last year's report team.",
+    "upcoming": true
+  },
+  {
+    "date": "2025-09-19",
+    "day": "Friday",
+    "time": "1:00 PM",
+    "location": "School Grounds",
+    "title": "Water Rocket Launch Day",
+    "description": "Annual inter-section water rocket competition. Max pressure 40 psi, max wingspan your creativity. Spectators welcome, umbrellas advised.",
+    "upcoming": true
+  },
+  {
+    "date": "2025-03-14",
+    "day": "Friday",
+    "time": "All day",
+    "location": "School Hall",
+    "title": "Pi Day Exhibition 2025",
+    "description": "Stalls, demos and the legendary recitation contest. Third edition, biggest crowd yet.",
+    "upcoming": false
+  },
+  {
+    "date": "2024-11-22",
+    "day": "Friday",
+    "time": "3:00 PM",
+    "location": "Biology Lab",
+    "title": "Onion Cell Microscopy Session",
+    "description": "First time most members used a compound microscope. Stained, mounted, photographed — some results later appeared in the club's first published reports.",
+    "upcoming": false
+  },
+  {
+    "date": "2024-08-16",
+    "day": "Friday",
+    "time": "3:00 PM",
+    "location": "Physics Lab",
+    "title": "Cloud Chamber Night I",
+    "description": "The original cosmic ray watch party. Twenty minutes of nothing, then everything.",
+    "upcoming": false
+  }
+]

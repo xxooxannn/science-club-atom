@@ -1,0 +1,68 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '@fontsource-variable/playfair-display';
+import '@fontsource-variable/outfit';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '../styles/global.css';
+
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = 'ATOMS is the science club of Rosybuds School — students who run experiments, publish reports, and ask dangerous questions.',
+} = Astro.props;
+
+const siteUrl = Astro.site ?? new URL('https://atom.rosybuds.edu.np');
+const canonical = new URL(Astro.url.pathname, siteUrl);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <ClientRouter />
+    <!-- JS present → enable anime.js pre-hidden states in CSS -->
+    <script is:inline>document.documentElement.classList.add('js'); if ('scrollRestoration' in history) history.scrollRestoration = 'manual';</script>
+    <title>{title} · ATOMS — Science Club of Rosybuds School</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ATOMS — Science Club of Rosybuds School" />
+    <meta property="og:title" content={`${title} · ATOMS`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+  </head>
+  <body class="grain flex min-h-[100dvh] flex-col">
+    <SiteHeader />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <SiteFooter />
+
+    <script>
+      // Site behaviour — safe to re-run: astro:page-load fires on first
+      // load AND after every view-transition swap.
+      import '../scripts/reveal';
+      import '../scripts/motion';
+    </script>
+    <script is:inline>
+      // Force top on fresh load / hard refresh — prevents the browser
+      // restoring a previous scroll offset and landing "a little below".
+      const toTop = () => { if (!location.hash) window.scrollTo(0, 0); };
+      window.addEventListener('load', toTop, { once: true });
+      document.addEventListener('astro:page-load', toTop);
+    </script>
+  </body>
+</html>

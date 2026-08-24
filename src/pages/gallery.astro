@@ -1,0 +1,169 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Gallery — art-galley style, 12 images for now.
+// Replace the picsum seeds with real club photos when you have them.
+// Recommended: 1600px wide, 4:3 or 1:1, export as jpg.
+
+const photos = [
+  {
+    seed: 'atoms-cloud-chamber',
+    label: '01 — Cloud chamber',
+    caption: 'First trail, 22 min wait — muon from a dying star',
+    img: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1200&h=900&fit=crop&auto=format&q=80&sat=-100',
+    wide: true,
+  },
+  {
+    seed: 'atoms-chiya',
+    label: '02 — Chiya lab',
+    caption: '14 brews, blind taste — cold milk from the start',
+    img: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&h=800&fit=crop&auto=format&q=80&sat=-100',
+    wide: false,
+  },
+  {
+    seed: 'atoms-air',
+    label: '03 — Air log',
+    caption: 'Courtyard cleanest — 30% drop after windows open',
+    img: 'https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=800&h=1000&fit=crop&auto=format&q=80&sat=-100',
+    wide: false,
+  },
+  {
+    seed: 'atoms-archive-4',
+    label: '04 — Water rockets',
+    caption: '40 psi · Sep 19 · Umbrellas advised',
+    img: 'https://images.unsplash.com/photo-1517976487492-5750f3195933?w=1200&h=900&fit=crop&auto=format&q=80&sat=-100',
+    wide: true,
+  },
+  {
+    seed: 'atoms-archive-5',
+    label: '05 — Microscopy',
+    caption: 'Onion cells at 400× — first time on a compound scope',
+    img: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=800&h=800&fit=crop&auto=format&q=80&sat=-100',
+    wide: false,
+  },
+  {
+    seed: 'atoms-archive-6',
+    label: '06 — Pi Day',
+    caption: 'Exhibition — stalls, demos, recitation contest',
+    img: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=1000&fit=crop&auto=format&q=80&sat=-100',
+    wide: false,
+  },
+  {
+    seed: 'atoms-archive-7',
+    label: '07 — Lab night',
+    caption: 'Friday 15:00 · The bench where it all happens',
+    img: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1200&h=900&fit=crop&auto=format&q=80&sat=-100',
+    wide: true,
+  },
+  {
+    seed: 'atoms-archive-8',
+    label: '08 — Workshop',
+    caption: 'Report writing — from messy log to published note',
+    img: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=800&fit=crop&auto=format&q=80&sat=-100',
+    wide: false,
+  },
+  {
+    seed: 'atoms-archive-9',
+    label: '09 — Field work',
+    caption: 'Carrying sensors around school for a week',
+    img: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=800&h=1000&fit=crop&auto=format&q=80&sat=-100',
+    wide: false,
+  },
+  {
+    seed: 'atoms-archive-10',
+    label: '10 — Archive',
+    caption: 'Two batches before you — notes that started it all',
+    img: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1200&h=900&fit=crop&auto=format&q=80&sat=-100',
+    wide: true,
+  },
+  {
+    seed: 'atoms-archive-11',
+    label: '11 — Build log',
+    caption: 'Tape, dry ice, a lot of patience',
+    img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=800&fit=crop&auto=format&q=80&sat=-100',
+    wide: false,
+  },
+  {
+    seed: 'atoms-archive-12',
+    label: '12 — Next',
+    caption: 'Your photo here — bring a camera Friday',
+    img: 'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800&h=1000&fit=crop&auto=format&q=80&sat=-100',
+    wide: false,
+  },
+];
+---
+
+<BaseLayout
+  title="Gallery"
+  description="The ATOMS archive — an art gallery of lab nights, experiments and exhibitions. 12 frames and counting."
+>
+  <section class="mx-auto max-w-6xl px-5 pt-10 md:px-8 md:pt-14">
+    <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-crimson">Archive</p>
+    <h1 class="mt-4 font-display text-4xl font-bold tracking-tight md:text-6xl">Gallery.</h1>
+    <p class="mt-4 max-w-xl text-[17px] leading-relaxed text-ink-soft">
+      Lab nights, water rockets, microscopy, Pi Day. An art gallery of the club — not polished, just real. Click any frame to view.
+    </p>
+    <div class="mt-6 flex flex-wrap items-center gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-soft">
+      <span class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1">12 frames</span>
+      <span class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1">2023 → 2025</span>
+      <span class="hidden md:inline">Replace seeds with real photos — see README</span>
+    </div>
+  </section>
+
+  <!-- Bento art gallery -->
+  <section class="mx-auto mt-10 max-w-6xl px-5 md:mt-12 md:px-8">
+    <div class="grid gap-3 md:grid-cols-12 auto-rows-[280px]">
+      {
+        photos.map((p) =>
+          p.seed === 'atoms-archive-12' ? (
+            <figure class="reveal group relative flex flex-col items-center justify-center rounded-2xl border border-dashed border-line bg-paper-deep p-8 text-center md:col-span-4">
+              <div class="absolute left-3 top-3 specimen-label bg-surface text-[8px]">{p.label}</div>
+              <div class="flex h-14 w-14 items-center justify-center rounded-full border border-line bg-surface text-ink-soft">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+                  <circle cx="12" cy="13" r="3.5" />
+                </svg>
+              </div>
+              <p class="mt-4 font-display text-[17px] font-bold leading-tight tracking-tight">Your photo here</p>
+              <p class="mt-1 font-mono text-xs leading-relaxed text-ink-soft">bring a camera Friday</p>
+              <p class="mt-4 inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.16em] text-crimson">Friday 15:00 · Physics Lab →</p>
+            </figure>
+          ) : (
+            <figure
+              class:list={[
+                'reveal group relative overflow-hidden rounded-2xl border border-line bg-surface',
+                p.wide ? 'md:col-span-8' : 'md:col-span-4',
+              ]}
+            >
+              <img
+                src={p.img}
+                alt={p.caption}
+                width="1200"
+                height="900"
+                loading="lazy"
+                class="h-full w-full object-cover transition-transform duration-700 ease-fluid group-hover:scale-[1.02]"
+              />
+              <div class="absolute left-3 top-3 specimen-label bg-paper/90 backdrop-blur text-[8px]">{p.label}</div>
+              <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/70 via-ink/20 to-transparent p-4 pt-12">
+                <p class="font-display text-sm font-bold leading-tight text-paper">{p.caption}</p>
+              </figcaption>
+            </figure>
+          )
+        )
+      }
+    </div>
+
+    <div class="mt-10 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-dashed border-line bg-paper-deep p-6">
+      <div>
+        <h2 class="font-display text-lg font-bold">Have photos from a lab night?</h2>
+        <p class="mt-1 text-sm leading-relaxed text-ink-soft">We’ll add them here. Send them to the committee or bring a drive Friday.</p>
+      </div>
+      <a
+        href="/join"
+        class="inline-flex items-center gap-2 rounded-full bg-crimson px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-crimson-deep"
+      >
+        Submit photos →
+      </a>
+    </div>
+  </section>
+</BaseLayout>

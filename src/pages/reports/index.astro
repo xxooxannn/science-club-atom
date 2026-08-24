@@ -1,0 +1,113 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const reports = (await getCollection('reports', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const formatDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+---
+
+<BaseLayout
+  title="Reports"
+  description="Formal project and lab reports published by ATOMS members — methods, data, results and honest conclusions."
+>
+  <section class="mx-auto max-w-6xl px-5 pt-10 md:px-8 md:pt-16">
+    <p class="font-mono text-[10px] uppercase tracking-[0.24em] text-crimson">The Archive</p>
+    <h1 class="mt-5 font-display text-4xl font-semibold tracking-tight md:text-6xl">
+      Published reports.
+    </h1>
+    <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
+      Formal write-ups of club projects — the serious sibling of our articles. Every report is
+      reviewed by a moderator before it's published here.
+    </p>
+  </section>
+
+  <!-- How publishing works -->
+  <section class="mx-auto mt-14 max-w-6xl px-5 md:px-8">
+    <ol class="reveal grid gap-6 rounded-3xl bg-paper-deep p-8 sm:grid-cols-3 md:p-10">
+      <li>
+        <span class="font-mono text-sm text-crimson">01</span>
+        <h2 class="mt-2 font-medium">Do the project</h2>
+        <p class="mt-1.5 text-sm leading-relaxed text-ink-soft">
+          Run the experiment at lab night. Take notes as you go.
+        </p>
+      </li>
+      <li>
+        <span class="font-mono text-sm text-crimson">02</span>
+        <h2 class="mt-2 font-medium">Write &amp; submit</h2>
+        <p class="mt-1.5 text-sm leading-relaxed text-ink-soft">
+          Send your draft through the submission form on the join page.
+        </p>
+      </li>
+      <li>
+        <span class="font-mono text-sm text-crimson">03</span>
+        <h2 class="mt-2 font-medium">Moderated, then live</h2>
+        <p class="mt-1.5 text-sm leading-relaxed text-ink-soft">
+          A committee member reviews it, and your report appears on this page.
+        </p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- Report list -->
+  <section class="mx-auto mt-20 max-w-6xl px-5 md:mt-24 md:px-8">
+    {
+      reports.length === 0 ? (
+        <p class="rounded-2xl bg-paper-deep p-8 text-ink-soft">
+          No reports published yet — finish a project and be the first.
+        </p>
+      ) : (
+        <ul class="divide-y divide-line border-y border-line">
+          {reports.map((report) => (
+            <li class="reveal group grid gap-x-10 gap-y-4 py-9 lg:grid-cols-[130px_1fr_auto] lg:items-start">
+              <!-- date + field -->
+              <div class="flex flex-row gap-3 lg:flex-col">
+                <span class="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-soft">
+                  {formatDate(report.data.date)}
+                </span>
+                <span class="w-fit rounded-full border border-line px-3 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-crimson">
+                  {report.data.field}
+                </span>
+              </div>
+
+              <!-- content -->
+              <div>
+                <h2 class="text-xl font-medium leading-snug md:text-2xl">
+                  {report.data.title}
+                </h2>
+                <p class="mt-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-ink-soft">
+                  {report.data.authors.join(' · ')}
+                </p>
+                <p class="mt-4 max-w-2xl leading-relaxed text-ink-soft">{report.data.abstract}</p>
+              </div>
+
+              <!-- action -->
+              <div class="lg:pt-1">
+                {report.data.file ? (
+                  <a
+                    href={report.data.file}
+                    target="_blank"
+                    rel="noopener"
+                    class="inline-flex items-center rounded-full border border-ink/25 px-5 py-2.5 text-sm transition-colors duration-300 ease-fluid hover:border-crimson hover:text-crimson active:scale-[0.98]"
+                  >
+                    Read PDF ↗
+                  </a>
+                ) : (
+                  <span
+                    class="inline-flex items-center rounded-full border border-dashed border-line px-5 py-2.5 text-sm text-ink-soft"
+                    title="Full PDF available from the club archive"
+                  >
+                    In archive
+                  </span>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+</BaseLayout>

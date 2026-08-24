@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AtomMark from '../components/AtomMark.astro';
+---
+
+<BaseLayout
+  title="About"
+  description="ATOMS is the science club of Rosybuds School — founded 2023, now run by its third committee."
+>
+  <section class="mx-auto max-w-6xl px-5 pt-10 md:px-8 md:pt-16">
+    <p class="font-mono text-[10px] uppercase tracking-[0.24em] text-crimson">About ATOMS</p>
+    <h1 class="mt-5 max-w-3xl font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+      We're the students who ask “but why?” until it becomes an experiment.
+    </h1>
+    <p class="mt-7 max-w-2xl text-lg leading-relaxed text-ink-soft">
+      ATOMS is Rosybuds School's science club — a student-run group that meets every Friday to
+      build things, break things, measure what happened, and write it all down. Two batches came
+      before us. Everything on this site exists because of them.
+    </p>
+  </section>
+
+  <!-- ── WHAT WE DO ───────────────────────────────────────── -->
+  <section class="mx-auto mt-20 max-w-6xl px-5 md:mt-28 md:px-8">
+    <div class="grid gap-12 md:grid-cols-[1fr_1.2fr] md:gap-16">
+      <h2 class="font-display text-3xl font-semibold tracking-tight md:text-4xl">
+        What we actually do.
+      </h2>
+      <div class="space-y-6 leading-relaxed text-ink-soft">
+        <p>
+          <strong class="text-ink">Experiments.</strong> Every project starts with a question and
+          ends with data — cloud chambers, water rockets, microscopy, whatever the club votes to
+          chase next.
+        </p>
+        <p>
+          <strong class="text-ink">Writing.</strong> Findings don't count until they're written
+          down. Members publish articles for everyone, and formal reports with methods, results
+          and honest conclusions.
+        </p>
+        <p>
+          <strong class="text-ink">Handover.</strong> The most important thing we do isn't for us.
+          Each batch documents its projects so the next one starts further ahead than we did.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TIMELINE ─────────────────────────────────────────── -->
+  <section class="mx-auto mt-24 max-w-6xl px-5 md:mt-32 md:px-8">
+    <h2 class="reveal font-display text-3xl font-semibold tracking-tight md:text-4xl">
+      Three batches deep.
+    </h2>
+    <ol class="mt-10 divide-y divide-line border-y border-line">
+      <!-- TODO: replace milestone lines with real club history from past batches -->
+      <li class="reveal grid gap-2 py-8 md:grid-cols-[110px_1fr] md:gap-8">
+        <span class="font-display text-2xl font-semibold text-crimson">2023</span>
+        <div>
+          <h3 class="text-lg font-medium">First committee — the founders</h3>
+          <p class="mt-1.5 max-w-2xl leading-relaxed text-ink-soft">
+            The club is founded. First lab nights, first exhibition at Pi Day, and the founding
+            members' rule that still holds: if you didn't write it down, it didn't happen.
+          </p>
+        </div>
+      </li>
+      <li class="reveal grid gap-2 py-8 md:grid-cols-[110px_1fr] md:gap-8">
+        <span class="font-display text-2xl font-semibold text-crimson">2024</span>
+        <div>
+          <h3 class="text-lg font-medium">Second committee — the builders</h3>
+          <p class="mt-1.5 max-w-2xl leading-relaxed text-ink-soft">
+            Microscopy sessions, the first cloud chamber, and the first formally published club
+            reports. The archive starts filling up.
+          </p>
+        </div>
+      </li>
+      <li class="reveal grid gap-2 py-8 md:grid-cols-[110px_1fr] md:gap-8">
+        <span class="font-display text-2xl font-semibold text-crimson">2025</span>
+        <div>
+          <h3 class="text-lg font-medium">Third committee — you are here</h3>
+          <p class="mt-1.5 max-w-2xl leading-relaxed text-ink-soft">
+            This website launches. The goal for the year: more published reports than both
+            previous years combined — and a fourth batch ready to take over when we graduate.
+          </p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ── COMMITTEE / OPEN POSITIONS ───────────────────────── -->
+  <section class="mx-auto mt-24 max-w-6xl px-5 md:mt-32 md:px-8">
+    <h2 class="reveal font-display text-3xl font-semibold tracking-tight md:text-4xl">
+      The committee.
+    </h2>
+    <p class="reveal mt-3 max-w-xl leading-relaxed text-ink-soft">
+      Names go up here once this year's positions are confirmed. Until then — several roles are
+      still open. New members get first claim.
+    </p>
+    <!-- TODO: swap these placeholder cards for real member names + photos -->
+    <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        ['President', 'Vice President', 'Secretary', 'Treasurer', 'Report Editor', 'Events Lead'].map(
+          (role) => (
+            <li class="reveal flex items-center justify-between rounded-2xl bg-surface p-5 ring-1 ring-line">
+              <div>
+                <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-soft">{role}</p>
+                <p class="mt-1.5 font-display text-xl font-semibold italic text-crimson/70">
+                  Open position
+                </p>
+              </div>
+              <AtomMark class="h-9 w-9 shrink-0 text-line" strokeWidth={6} />
+            </li>
+          )
+        )
+      }
+    </ul>
+  </section>
+
+  <!-- ── CTA LINE ─────────────────────────────────────────── -->
+  <section class="mx-auto mt-24 max-w-6xl px-5 md:mt-28 md:px-8">
+    <div class="reveal flex flex-wrap items-center justify-between gap-6 rounded-3xl border border-line p-8 md:p-10">
+      <p class="max-w-lg font-display text-2xl font-medium tracking-tight md:text-3xl">
+        Want your name on this page?
+      </p>
+      <a
+        href="/join"
+        class="group inline-flex items-center gap-2.5 rounded-full bg-crimson py-2.5 pl-6 pr-2.5 font-medium text-paper transition-all duration-300 ease-fluid hover:bg-crimson-deep active:scale-[0.98]"
+      >
+        Join the club
+        <span
+          class="flex h-8 w-8 items-center justify-center rounded-full bg-paper/15 transition-transform duration-300 ease-fluid group-hover:translate-x-0.5"
+          aria-hidden="true">→</span
+        >
+      </a>
+    </div>
+  </section>
+</BaseLayout>

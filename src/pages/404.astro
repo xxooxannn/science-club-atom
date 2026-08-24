@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AtomMark from '../components/AtomMark.astro';
+---
+
+<BaseLayout title="404" description="Page not found.">
+  <section class="mx-auto flex max-w-3xl flex-col items-center px-5 py-28 text-center md:py-40">
+    <AtomMark spin class="h-24 w-24 text-crimson/70" strokeWidth={3} />
+    <p class="mt-10 font-mono text-[11px] uppercase tracking-[0.24em] text-ink-soft">
+      Error 404
+    </p>
+    <h1 class="mt-4 font-display text-5xl font-semibold tracking-tight md:text-6xl">
+      Element not found.
+    </h1>
+    <p class="mt-5 max-w-md leading-relaxed text-ink-soft">
+      The page you're looking for either never existed or decayed into something more stable.
+    </p>
+    <a
+      href="/"
+      class="group mt-9 inline-flex items-center gap-2.5 rounded-full bg-crimson py-2.5 pl-6 pr-2.5 font-medium text-paper transition-all duration-300 ease-fluid hover:bg-crimson-deep active:scale-[0.98]"
+    >
+      Back to base
+      <span
+        class="flex h-8 w-8 items-center justify-center rounded-full bg-paper/15 transition-transform duration-300 ease-fluid group-hover:translate-x-0.5"
+        aria-hidden="true">→</span
+      >
+    </a>
+  </section>
+</BaseLayout>

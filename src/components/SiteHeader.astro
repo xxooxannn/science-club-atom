@@ -1,0 +1,146 @@
+---
+import AtomMark from './AtomMark.astro';
+
+// Sticky editorial masthead. Mobile: hamburger morphs to X,
+// full-screen paper overlay with staggered link reveal.
+
+const nav = [
+  { label: 'About', href: '/about' },
+  { label: 'Events', href: '/events' },
+  { label: 'Articles', href: '/articles' },
+  { label: 'Reports', href: '/reports' },
+  { label: 'Gallery', href: '/gallery' },
+];
+
+const currentPath = Astro.url.pathname;
+const isActive = (href: string) =>
+  currentPath === href || currentPath.startsWith(href + '/');
+---
+
+<header class="sticky top-0 z-50 border-b border-line/50 bg-paper/85 backdrop-blur-md supports-[backdrop-filter]:bg-paper/75">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-5 md:px-8 md:py-6">
+    <!-- Wordmark -->
+    <a href="/" class="group flex items-center gap-3" aria-label="ATOMS — home">
+      <AtomMark class="h-10 w-10 text-crimson transition-transform duration-700 ease-fluid group-hover:rotate-[30deg] md:h-11 md:w-11" strokeWidth={4} />
+      <span class="flex flex-col leading-none">
+        <span class="font-display text-[1.55rem] font-semibold tracking-tight md:text-[1.7rem]">ATOMS</span>
+        <span class="mt-1 font-mono text-[9px] uppercase tracking-[0.22em] text-ink-soft max-md:hidden">
+          Science Club · Rosybuds School
+        </span>
+        <span class="mt-1 font-mono text-[8px] uppercase tracking-[0.2em] text-ink-soft md:hidden">
+          Rosybuds School
+        </span>
+      </span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden items-center gap-7 lg:flex" aria-label="Main">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+            class:list={[
+              'nav-link text-[15px] transition-colors duration-300 ease-fluid hover:text-crimson',
+              isActive(item.href) ? 'text-crimson' : 'text-ink',
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a
+        href="/join"
+        class="magnetic group ml-2 inline-flex items-center gap-2 rounded-full bg-crimson py-2 pl-5 pr-2 text-sm font-medium text-paper transition-colors duration-300 ease-fluid hover:bg-crimson-deep active:scale-[0.98]"
+      >
+        Join the club
+        <span
+          class="flex h-7 w-7 items-center justify-center rounded-full bg-paper/15 transition-transform duration-300 ease-fluid group-hover:translate-x-0.5"
+          aria-hidden="true">→</span
+        >
+      </a>
+    </nav>
+
+    <!-- Mobile hamburger -->
+    <button
+      id="menu-toggle"
+      class="relative z-[60] flex h-11 w-11 items-center justify-center rounded-full ring-1 ring-line lg:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="Toggle menu"
+    >
+      <span class="menu-line absolute h-[1.5px] w-5 bg-ink transition-all duration-300 ease-fluid -translate-y-[5px]"></span>
+      <span class="menu-line absolute h-[1.5px] w-5 bg-ink transition-all duration-300 ease-fluid translate-y-[5px]"></span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile overlay menu — OUTSIDE header so fixed inset-0 isn't trapped by backdrop-blur -->
+<div
+  id="mobile-menu"
+  class="invisible fixed inset-0 z-40 flex flex-col justify-center bg-paper/95 px-8 opacity-0 backdrop-blur-md transition-all duration-500 ease-fluid lg:hidden"
+  aria-hidden="true"
+>
+  <nav class="flex flex-col gap-2 pt-8" aria-label="Mobile">
+    {
+      [{ label: 'Home', href: '/' }, ...nav, { label: 'Join the club', href: '/join' }].map((item, i) => (
+        <a
+          href={item.href}
+          class="menu-link translate-y-6 font-display text-4xl font-semibold tracking-tight opacity-0 transition-all duration-500 ease-fluid hover:text-crimson"
+          style={`transition-delay: ${80 + i * 55}ms`}
+        >
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
+  <p class="mt-14 font-mono text-[10px] uppercase tracking-[0.22em] text-ink-soft">
+    ATOMS · Est. 2023 · atom.rosybuds.edu.np
+  </p>
+</div>
+
+<script>
+  function initHeader() {
+    const toggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    const lines = document.querySelectorAll('.menu-line');
+    const links = document.querySelectorAll('.menu-link');
+    if (!toggle || !menu || (toggle as any)._atomsBound) return;
+    (toggle as any)._atomsBound = true;
+
+    function setMenu(open) {
+      toggle.setAttribute('aria-expanded', String(open));
+      if (!menu) return;
+      if (open) {
+        menu.classList.remove('invisible', 'opacity-0');
+        document.body.style.overflow = 'hidden';
+        lines[0]?.classList.replace('-translate-y-[5px]', 'rotate-45');
+        lines[0]?.classList.remove('translate-y-[5px]');
+        lines[1]?.classList.replace('translate-y-[5px]', '-rotate-45');
+        links.forEach((l) => l.classList.remove('translate-y-6', 'opacity-0'));
+      } else {
+        menu.classList.add('opacity-0');
+        document.body.style.overflow = '';
+        window.setTimeout(() => menu.classList.add('invisible'), 500);
+        lines[0]?.classList.replace('rotate-45', '-translate-y-[5px]');
+        lines[1]?.classList.replace('-rotate-45', 'translate-y-[5px]');
+        links.forEach((l) => l.classList.add('translate-y-6', 'opacity-0'));
+      }
+    }
+
+    toggle.addEventListener('click', () => {
+      setMenu(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+    links.forEach((l) => l.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setMenu(false);
+    });
+    // Close on resize to desktop
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 1024) setMenu(false);
+    });
+  }
+  initHeader();
+  document.addEventListener('astro:page-load', initHeader);
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>

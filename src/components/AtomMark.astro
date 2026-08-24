@@ -1,0 +1,76 @@
+---
+// The ATOMS mark: nucleus + three electron orbits at 0°/60°/120°,
+// with electron dots riding the orbits.
+//
+// Spin mode: each orbit group animates from its own base angle via
+// CSS custom props (--base). CSS transforms would otherwise nuke
+// the static SVG transform attribute and collapse all orbits onto
+// each other — this way they never overlap.
+
+interface Props {
+  class?: string;
+  strokeWidth?: number;
+  spin?: boolean;
+}
+
+const { class: className = 'h-10 w-10', strokeWidth = 4, spin = false } = Astro.props;
+
+// viewBox grew from 120 → 200; scale stroke widths so existing
+// call sites keep their exact visual weight.
+const sw = (strokeWidth * 200) / 120;
+
+const RX = 82;
+const RY = 30;
+
+// Point on the un-rotated ellipse at parameter angle `deg`.
+const pt = (deg: number) => {
+  const r = (deg * Math.PI) / 180;
+  return {
+    x: +(100 + RX * Math.cos(r)).toFixed(2),
+    y: +(100 + RY * Math.sin(r)).toFixed(2),
+  };
+};
+
+const orbits = [
+  { base: 0, dur: '52s', dir: 'normal', electron: 24 },
+  { base: 60, dur: '38s', dir: 'reverse', electron: 152 },
+  { base: 120, dur: '45s', dir: 'normal', electron: 78 },
+];
+---
+
+<svg viewBox="0 0 200 200" fill="none" class={className} role="img" aria-label="ATOMS logo">
+  <!-- dashed guide ring -->
+  <circle
+    cx="100"
+    cy="100"
+    r="94"
+    stroke="currentColor"
+    stroke-width="1"
+    stroke-dasharray="1.5 7"
+    opacity="0.3"></circle>
+
+  {
+    orbits.map((o) => {
+      const e = pt(o.electron);
+      return (
+        <g
+          class={spin ? 'atoms-orbit' : undefined}
+          style={spin ? `--base:${o.base}deg;--dur:${o.dur};--dir:${o.dir}` : undefined}
+          transform={spin ? undefined : `rotate(${o.base} 100 100)`}
+        >
+          <ellipse cx="100" cy="100" rx={RX} ry={RY} stroke="currentColor" stroke-width={sw} />
+          <circle cx={e.x} cy={e.y} r={sw * 1.15} fill="currentColor" class="atom-electron" />
+        </g>
+      );
+    })
+  }
+
+  <!-- nucleus -->
+  <circle
+    cx="100"
+    cy="100"
+    r="14"
+    fill="currentColor"
+    class="atom-nucleus"
+    style="transform-box: fill-box; transform-origin: center"></circle>
+</svg>
