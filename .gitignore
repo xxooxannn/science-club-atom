@@ -4,3 +4,5 @@ dist/
 .DS_Store
 *.log
 .env
+pnpm-lock.yaml
+pnpm-workspace.yaml
