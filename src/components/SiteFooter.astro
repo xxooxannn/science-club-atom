@@ -8,15 +8,15 @@ const year = new Date().getFullYear();
 
 <footer class="mt-28 border-t border-line">
   <div class="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
-    <!-- Giant wordmark — fluid on small, centered on mobile -->
-    <div class="flex flex-col items-center gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
+    <!-- Giant wordmark — one baseline-aligned lockup at every size -->
+    <div class="flex items-end justify-between gap-4 sm:gap-8">
       <p
-        class="font-display text-center text-[clamp(3rem,19vw,9rem)] font-semibold leading-[0.85] tracking-tight text-ink select-none sm:text-left"
+        class="font-display text-[clamp(3rem,19vw,9rem)] font-semibold leading-[0.85] tracking-tight text-ink select-none"
         aria-hidden="true"
       >
         ATOMS
       </p>
-      <AtomMark class="h-10 w-10 shrink-0 text-crimson sm:mb-3 sm:h-14 sm:w-14 md:h-16 md:w-16" strokeWidth={4} />
+      <AtomMark class="mb-1.5 h-11 w-11 shrink-0 text-crimson sm:mb-3 sm:h-14 sm:w-14 md:h-16 md:w-16" strokeWidth={4} />
     </div>
 
     <div class="mt-12 grid gap-10 border-t border-line pt-10 sm:grid-cols-3">
