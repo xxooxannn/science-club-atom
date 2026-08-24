@@ -264,7 +264,8 @@ const quoteWords = quoteText.split(' ');
 
   <!-- ── ARCHIVE DRAWER — CURATED, NOT FILLER ─ -->
   <section id="specimen-drawer" class="relative mt-20 h-[180vh] md:mt-28 md:h-[280vh]">
-    <div class="sticky top-0 flex min-h-[100dvh] flex-col justify-center overflow-hidden py-8">
+    <!-- svh (not dvh): stable height, so the pin doesn't re-center when the mobile URL bar collapses -->
+    <div class="sticky top-0 flex min-h-[100svh] flex-col justify-center overflow-hidden py-8">
       <div class="mx-auto w-full max-w-6xl px-5 md:px-8">
         <div class="flex flex-wrap items-end justify-between gap-4">
           <h2 class="reveal font-display text-4xl font-bold tracking-tight md:text-5xl">

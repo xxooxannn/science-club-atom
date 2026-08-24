@@ -236,6 +236,41 @@
   scroll-snap-align: start;
 }
 
+/* ── Specimen drawer fallbacks ──────────────────────────────
+   Without JS — or with reduced motion (JS opts out) — the pinned
+   scroll-jack is off. Collapse the 180vh stage to a normal
+   horizontally swipeable snap strip so every card stays reachable. */
+html:not(.js) #specimen-drawer {
+  height: auto;
+}
+html:not(.js) #specimen-drawer > .sticky {
+  position: static;
+  min-height: 0;
+}
+html:not(.js) #drawer-track {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1.25rem;
+  scrollbar-width: none;
+}
+html:not(.js) #drawer-track::-webkit-scrollbar {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  #specimen-drawer {
+    height: auto;
+  }
+  #specimen-drawer > .sticky {
+    position: static;
+    min-height: 0;
+  }
+  #drawer-track {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1.25rem;
+  }
+}
+
 /* ── Lab-notebook graph-paper grid (site-wide) ────────── */
 body {
   background-image:

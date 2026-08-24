@@ -121,22 +121,54 @@ function playQuote() {
 
 // ── Specimen drawer: vertical scroll drives horizontal ─────
 function initDrawer() {
+  // Reduced motion → CSS collapses the section to a native swipe strip.
   if (reduce) return;
   const section = document.getElementById('specimen-drawer');
   const track = document.getElementById('drawer-track') as HTMLElement | null;
   if (!section || !track) return;
+
+  // Measure against layout heights (stable vh/svh units), never
+  // window.innerHeight — on mobile that value changes when the URL
+  // bar collapses, which used to make the strip jump backwards
+  // mid-scroll. Stable inputs ⇒ progress is a pure function of
+  // scroll position.
+  const sticky = (section.firstElementChild as HTMLElement | null) ?? section;
+
+  // One resize listener per visit — drop the previous page's first.
+  const w = window as unknown as Record<string, unknown>;
+  (w.__atomsDrawerCleanup as (() => void) | undefined)?.();
+
+  let maxTranslate = 0;
+  let lastX = Number.POSITIVE_INFINITY;
+
+  const measure = () => {
+    // End flush with the track's own inset (px-5) — mirrors x = 0.
+    maxTranslate = Math.max(0, track.scrollWidth - document.documentElement.clientWidth);
+  };
+
   const update = () => {
     const rect = section.getBoundingClientRect();
-    const vh = window.innerHeight;
-    const maxScroll = section.offsetHeight - vh;
+    // Cheap cull: skip all work while the drawer is far off-screen.
+    if (rect.bottom < -200 || rect.top > window.innerHeight + 200) return;
+    const maxScroll = section.offsetHeight - sticky.offsetHeight;
     if (maxScroll <= 0) return;
     const progress = Math.min(Math.max(-rect.top / maxScroll, 0), 1);
-    const maxTranslate = Math.max(0, track.scrollWidth - window.innerWidth + 32);
     const x = -progress * maxTranslate;
-    track.style.transform = `translate3d(${x}px,0,0)`;
+    if (Math.abs(x - lastX) > 0.25) {
+      lastX = x;
+      track.style.transform = `translate3d(${x.toFixed(1)}px,0,0)`;
+    }
   };
+
+  const remeasure = () => {
+    measure();
+    update();
+  };
+
+  w.__atomsDrawerCleanup = () => window.removeEventListener('resize', remeasure);
+  measure();
   addTask(update);
-  window.addEventListener('resize', update, { passive: true });
+  window.addEventListener('resize', remeasure, { passive: true });
 }
 
 // ── Periodic tiles: gentle mouse parallax (desktop only) ─────
